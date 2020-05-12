@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}index{% endblock %}
+
+{% block contents %}
+<form method="post" action="/send" enctype="multipart/form-data">
+    <input type="file" id="img_file" name="img_file">
+    <input type="submit" value="送信">
+</form>
+<p>
+{% if raw_img_url %}
+    <img src="{{ raw_img_url }}">
+{% endif %}
+{% if gray_img_url %}
+    <img src="{{ gray_img_url }}">
+{% endif %}
+</p>
+
+{% endblock %}

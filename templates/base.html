@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}{% endblock %}</title>
+
+        <!-- Custom styles for this template -->
+        <link href="/static/'css/one-page-wonder.min.css" rel="stylesheet">
+
+        <!-- My style -->
+        <link rel="stylesheet" type="text/css" href="/static/css/mystyle.css}">
+        {% block head %}{% endblock %}
+    </head>
+
+    <body>
+        <div id="wrapper">
+            <!-- Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+                <div class="container">
+                    <a class="navbar-brand" href="/">Pulse From Video</a>
+                </div>
+            </nav>
+        </div>
+
+        {% block header %}{% endblock %}
+
+        {% block contents %}{% endblock %}
+    </body>
+
+</html>
