@@ -1,4 +1,3 @@
-
 import os
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 from werkzeug.utils import secure_filename
@@ -18,13 +17,13 @@ def allowed_file(filename):
         filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 @app.route('/')
-def temp():
-    return render_template('temp.html')
+def index():
+    return render_template('index.html')
 
 @app.route('/send', methods=['GET', 'POST'])
 def send():
     if request.method == 'POST':
-        video_file = request.files['img_file']
+        video_file = request.files['video_file']
 
         # 変なファイルを弾く　
         if video_file and allowed_file(video_file.filename):
@@ -32,15 +31,15 @@ def send():
         else:
             return ''' <p>許可されていない拡張子です</p> '''
 
-        pulse_graph_url = os.path.join(app.config['UPLOAD_FOLDER'], 'pulse_' + filename)
+        pulse_graph_url = os.path.join(app.config['UPLOAD_FOLDER'], 'pulse.png')
 
         # アップロードした動画を分析し、心拍数のグラフを保存
-        vp(video_file, filename)
+        vp(video_file, pulse_graph_url)
 
-        return render_template('temp.html', pulse_graph_url=pulse_graph_url)
+        return render_template('index.html', pulse_graph_url=pulse_graph_url)
 
     else:
-        return redirect(url_for('temp'))
+        return redirect(url_for('index'))
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):

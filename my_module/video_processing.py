@@ -1,17 +1,19 @@
-def vp(video_file, filename):
+def vp(video_file, pulse_graph_url):
     import numpy as np
     import matplotlib.pyplot as plt
     import pandas as pd
     import cv2
-    import os
     import glob
 
     from my_module.frame_split import frame_split
 
-    frame_split(video_file)
+    # 動画を一旦保存する
+    video_file.save("video")
+
+    frame_split("video")
 
     # 画像ファイルを格納，時系列にソート
-    files = glob.glob("image_wave２/*.png")
+    files = glob.glob("image_wave/*.png")
     files.sort()
 
     # 画像を読み込み，green成分を抽出
@@ -41,4 +43,4 @@ def vp(video_file, filename):
     time = np.arange(0, end_time, end_time / len(img_mean))
     plt.plot(time, img_mean)
     plt.xlabel("time(s)", size=15)
-    plt.savefig("pulse_graph_url")
+    plt.savefig(pulse_graph_url)

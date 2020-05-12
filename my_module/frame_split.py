@@ -1,6 +1,6 @@
 # フレーム分割
-def frame_split(video_file='./image_wave.wmv', image_dir='./image_wave２/',
-                image_file='image_wave２-%s.png'):
+def frame_split(video_file='./image_wave.mov', image_dir='./image_wave/',
+                image_file='image_wave-%s.png'):
     import os
     import shutil
     import cv2

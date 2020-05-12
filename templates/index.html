@@ -4,15 +4,12 @@
 
 {% block contents %}
 <form method="post" action="/send" enctype="multipart/form-data">
-    <input type="file" id="img_file" name="img_file">
+    <input type="file" id="video_file" name="video_file">
     <input type="submit" value="送信">
 </form>
 <p>
-{% if raw_img_url %}
-    <img src="{{ raw_img_url }}">
-{% endif %}
-{% if gray_img_url %}
-    <img src="{{ gray_img_url }}">
+{% if pulse_graph_url %}
+    <img src="{{ pulse_graph_url }}">
 {% endif %}
 </p>
 
