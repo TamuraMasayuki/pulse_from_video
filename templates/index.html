@@ -8,8 +8,11 @@
     <input type="submit" value="送信">
 </form>
 <p>
-{% if pulse_graph_url %}
-    <img src="{{ pulse_graph_url }}">
+{% if heart_rate %}
+    <p>あなたの心拍数は...</p>
+    <div class="heart_rate">
+        {{ heart_rate }}
+    </div>
 {% endif %}
 </p>
 
