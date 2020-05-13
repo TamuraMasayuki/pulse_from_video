@@ -1,6 +1,7 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
-from werkzeug.utils import secure_filename
+from flask import Flask, render_template, request, redirect, url_for
+import numpy as np
+import cv2
 
 from my_module.video_processing import vp
 
@@ -8,7 +9,6 @@ app = Flask(__name__)
 
 UPLOAD_FOLDER = './uploads'
 ALLOWED_EXTENSIONS = set(['mov', 'mp4', 'm4a', 'avi', 'wmv'])
-IMAGE_WIDTH = 640
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SECRET_KEY'] = os.urandom(24)
 
@@ -26,24 +26,22 @@ def send():
         video_file = request.files['video_file']
 
         # 変なファイルを弾く　
-        if video_file and allowed_file(video_file.filename):
-            filename = secure_filename(video_file.filename)
-        else:
+        if not video_file or not allowed_file(video_file.filename):
             return ''' <p>許可されていない拡張子です</p> '''
 
-        pulse_graph_url = os.path.join(app.config['UPLOAD_FOLDER'], 'pulse.png')
 
-        # アップロードした動画を分析し、心拍数のグラフを保存
-        vp(video_file, pulse_graph_url)
+        # アップロードした動画を分析し、心拍数を返す
+        stream = video_file.stream
+        img_array = np.asarray(bytearray(stream.read()), dtype=np.uint8)
+        img_set = cv2.imdecode(img_array, 1)
 
-        return render_template('index.html', pulse_graph_url=pulse_graph_url)
+        # img_setがOpenCVに読み込める動画の形式になっていないためエラーが出る
+        heart_rate = vp(img_set)
+
+        return render_template('index.html', heart_rate=heart_rate)
 
     else:
         return redirect(url_for('index'))
-
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == '__main__':
     app.debug = True
